@@ -3,6 +3,7 @@
   gap: 5rem;
   /* justify-content: space-between; */
   padding: 50px;
+  
 }
 
 .home-title {
@@ -22,7 +23,7 @@
   height: fit-content; /* altura suficiente para cabter o conteudo */
   background-color: rgb(255, 255, 255);
   border: 1px solid gray;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -42,11 +43,13 @@
   padding: 10px;
   outline: none;
   font-size: 20px;
+  border-radius: 5px;
 }
 
 .container .label-imagem label {
-  border: 1px solid black;
+  border: 2px solid black;
   padding: 20px;
+  border-radius: 5px;
 }
 
 .container .label-imagem input{
@@ -55,7 +58,7 @@
 
 .container form button {
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 100%;
   background-color: coral;
   padding: 20px;

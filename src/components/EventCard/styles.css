@@ -1,10 +1,12 @@
 .card-evento {
     width: 22rem;
-    height: 40rem;  /* mudei aqui */
+    height: 36rem;
     border: 1px solid gray;
     box-shadow: 0 0 5px gray;
     border-radius: 15px;
     background-color: rgb(255, 251, 247);
+    display: flex;
+    flex-direction: column;
   }
 
   /* button com display none e initial sumiu */
@@ -16,11 +18,17 @@
     border-top-right-radius: 15px;
   }
   
-  .infos-evento {
-    height: 60%;  /* mudei aqui */
-    padding: 1.5rem; 
+  .conteudo-card {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .infos-evento {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
   }
   
   .infos-evento p {
@@ -35,30 +43,52 @@
     overflow: hidden;
   }
   
-  .infos-evento div:nth-of-type(1) {
+  .botoes-card {
+    margin-top: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    max-width: 13rem;
-  }
-
-  .infos-evento div:nth-of-type(2) {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-start;
+  
   }
   
-  .infos-evento button {
-    padding: 0.5rem;
-    border-radius: 50%;
+  .botao-detalhes {
+    padding: 0.8rem;
+    border-radius: 5px;
     border: none;
     color: rgb(255, 255, 255);
+    background-color: rgb(154, 0, 0);
+    width: 100%;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
   }
   
-  .infos-evento button:nth-of-type(1) {
+  .botao-detalhes:hover {
+    background-color: rgb(180, 0, 0);
+  }
+
+  .botoes-acoes {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .botao-acoes {
+    padding: 0.5rem;
+    border-radius: 100%;
+    border: none;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  
+  .botao-acoes:nth-of-type(1) {
     background-color: rgb(154, 0, 0);
   }
   
-  .infos-evento button:nth-of-type(2) {
+  .botao-acoes:nth-of-type(2) {
     background-color: rgb(235, 133, 0);
   }
