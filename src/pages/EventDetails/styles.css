@@ -11,6 +11,99 @@
     color: #00171F;
 }
 
+/* Estilos para o upload de imagens */
+.input-wrapper {
+  margin: 1.5rem 0;
+}
+
+.input-wrapper label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2B2D42;
+}
+
+/* Estilo para esconder o input de arquivo original */
+.input-wrapper input[type="file"] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+/* Estilo para o rótulo personalizado */
+.input-wrapper label[for="image"] {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #457B9D;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-wrapper label[for="image"]:hover {
+  background-color: #1D3557;
+}
+
+/* Estilo quando o input está desabilitado */
+.input-wrapper input[type="file"]:disabled + label[for="image"] {
+  background-color: #A8DADC;
+  cursor: not-allowed;
+}
+
+/* Texto do nome do arquivo */
+.file-name {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  font-style: italic;
+}
+
+.input-wrapper input[type="file"]:hover {
+  border-color: #457B9D;
+  background-color: #F8F9FA;
+}
+
+.input-wrapper input[type="file"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-status {
+  margin-top: 0.5rem;
+  color: #457B9D;
+  font-style: italic;
+}
+
+.file-info {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6C757D;
+}
+
+.image-preview, .uploaded-image {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #E9ECEF;
+  border-radius: 8px;
+  background-color: #F8F9FA;
+}
+
+.image-preview img, .uploaded-image img {
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .voltar {
     width: fit-content;
     display: flex;
@@ -56,6 +149,32 @@
     
     .container-detalhes-evento {
         flex: 1;
+    }
+    
+    .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .input-wrapper input[type="file"] {
+        display: none;
+    }
+    
+    .input-wrapper label[for="image"] {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .input-wrapper label[for="image"]:hover {
+        background-color: #1D3557;
+    }
+    
+    .file-name {
+        font-size: 1rem;
+        margin-top: 1rem;
     }
 }
 

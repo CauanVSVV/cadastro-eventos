@@ -3,6 +3,7 @@ import { Header } from '../../components/Header';
 import { EventCard } from '../../components/EventCard';
 import { useState, useContext } from 'react';
 import { formatDate } from '../../utils/formatDate';
+import { uploadImage } from '../../utils/imageUpload';
 import { EventTypeDisplay } from '../../components/EventTypeDisplay';
 import { eventsTypes } from '../../data/events-type';
 import { EventContext } from '../../contexts/EventContext';
@@ -15,31 +16,53 @@ export function Home() {
   const [dataInicio, setDataInicio] = useState("")
   const [dataFinal, setDataFinal] = useState("")
   const [descricao, setDescricao] = useState("")
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
-  function handleUploadIMG(e) {
-    const reader = new FileReader();
+  async function handleUploadIMG(e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => setImg(reader.result)
+    setIsUploading(true);
+    try {
+      const imageUrl = await uploadImage(file);
+      if (imageUrl) {
+        setImg(imageUrl);
+      } else {
+        alert('Falha ao fazer upload da imagem. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Erro ao fazer upload da imagem. Tente novamente.');
+    } finally {
+      setIsUploading(false);
+    }
   }
 
-  function handleCriarEvento(e) {
-    e.preventDefault()
+  async function handleCriarEvento(e) {
+    e.preventDefault();
+
+    if (isUploading) {
+      alert('Aguarde o upload da imagem ser concluído.');
+      return;
+    }
+
+    if (!img) {
+      alert('Por favor, selecione uma imagem para o evento.');
+      return;
+    }
 
     const novoEvento = {
-    /*   id, */
       nome, 
       dataInicio: formatDate(dataInicio), 
       dataFinal: formatDate(dataFinal), 
       img,
       descricao
-    }
+    };
 
-    criarNovoEvento(novoEvento)
-
-    setImg('')
-    e.target.reset() //limpar os campos do  formulário
+    criarNovoEvento(novoEvento);
+    setImg('');
+    e.target.reset();
   }
 
   const itemsToShow = useResponsiveItems();
@@ -101,7 +124,15 @@ export function Home() {
           </div>
           
           <div className='preview-imagem'>
-            <img style={{display: img ? 'block' : 'none'}} src={img} alt='preview da imagem do evento' />
+            {isUploading ? (
+              <div>Enviando imagem...</div>
+            ) : (
+              <img 
+                style={{ display: img ? 'block' : 'none' }} 
+                src={img} 
+                alt='preview da imagem do evento' 
+              />
+            )}
           </div>
 
           <button>Cadastrar evento</button>

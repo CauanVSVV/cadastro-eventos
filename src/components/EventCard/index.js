@@ -38,9 +38,6 @@ export function EventCard({ img, id, nome, dataInicio, dataFinal, descricao }) {
               <button className="botao-acoes" onClick={() => deletarEvento(id)}>
                 <Trash size={24} />
               </button>
-              <button className="botao-acoes">
-                <PencilCircle size={24} />
-              </button>
             </div>
           </div>
           <button className="botao-detalhes" onClick={navegarParaDetalhes}>

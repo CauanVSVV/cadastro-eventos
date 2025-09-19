@@ -4,7 +4,8 @@ import { useNavigate, NavLink, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { CaretLeft } from "phosphor-react";
 import { EventContext } from "../../contexts/EventContext";
-import { formatDate } from "../../utils/formatDate";
+import { formatDate } from '../../utils/formatDate';
+import { uploadImage } from '../../utils/imageUpload';
 
 export function EventDetails() {
   const [nome, setNome] = useState("");
@@ -12,12 +13,76 @@ export function EventDetails() {
   const [dataFinal, setDataFinal] = useState("");
   const [descricao, setDescricao] = useState("");
   const [img, setImg] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [file, setFile] = useState(null);
 
-  function handleUploadIMG(e) {
-    const reader = new FileReader();
+  // Cria uma URL de pré-visualização para a imagem selecionada
+  function handleImageSelect(e) {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
 
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => setImg(reader.result);
+    // Validação do tipo de arquivo
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(selectedFile.type)) {
+      alert('Tipo de arquivo não suportado. Use: JPEG, PNG, GIF ou WebP');
+      e.target.value = '';
+      return;
+    }
+
+    // Validação do tamanho do arquivo (5MB)
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      alert('Arquivo muito grande. Tamanho máximo permitido: 5MB');
+      e.target.value = '';
+      return;
+    }
+
+    // Cria uma URL temporária para pré-visualização
+    const fileUrl = URL.createObjectURL(selectedFile);
+    setPreviewUrl(fileUrl);
+    setFile(selectedFile);
+    
+    // Inicia o upload
+    handleUploadIMG(selectedFile);
+  }
+
+  async function handleUploadIMG(file) {
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const imageUrl = await uploadImage(file);
+      setImg(imageUrl);
+      // Remove a pré-visualização temporária
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl('');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar imagem:', error);
+      // Remove a pré-visualização em caso de erro
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl('');
+      }
+      
+      // Mensagens de erro mais amigáveis
+      let errorMessage = 'Erro ao fazer upload da imagem. Tente novamente.';
+      
+      if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Não foi possível conectar ao servidor. Verifique sua conexão com a internet.';
+      } else if (error.message.includes('API key')) {
+        errorMessage = 'Erro de configuração. Por favor, tente novamente mais tarde.';
+      } else if (error.message.includes('Tipo de arquivo não suportado')) {
+        errorMessage = 'Tipo de arquivo não suportado. Use: JPEG, PNG, GIF ou WebP';
+      } else if (error.message.includes('muito grande')) {
+        errorMessage = 'Arquivo muito grande. Tamanho máximo permitido: 5MB';
+      }
+      
+      alert(errorMessage);
+    } finally {
+      setIsUploading(false);
+    }
   }
 
   const navigate = useNavigate();
@@ -26,19 +91,29 @@ export function EventDetails() {
 
   const evento = eventos.find((evento) => evento.id === Number(id));
 
-  function handleEditarEvento(e) {
+  async function handleEditarEvento(e) {
     e.preventDefault();
+    
+    if (isUploading) {
+      alert('Aguarde o upload da imagem ser concluído.');
+      return;
+    }
 
-    const eventoAtualizado = {
-      id,
-      nome,
-      dataInicio: formatDate(dataInicio),
-      dataFinal: formatDate(dataFinal),
-      img,
-      descricao,
-    };
+    try {
+      const eventoAtualizado = {
+        id,
+        nome,
+        dataInicio: formatDate(dataInicio),
+        dataFinal: formatDate(dataFinal),
+        img: img || evento.img, // Keep the existing image if no new one was uploaded
+        descricao,
+      };
 
-    editarEvento(eventoAtualizado);
+      editarEvento(eventoAtualizado);
+    } catch (error) {
+      console.error('Error updating event:', error);
+      alert('Erro ao atualizar o evento. Tente novamente.');
+    }
   }
 
   useEffect(() => {
@@ -104,17 +179,44 @@ export function EventDetails() {
               }}
             />
           </div>
-          <div className="label-imagem">
-            <label htmlFor="imagem">Selecione a imagem do evento</label>
-            <input onChange={handleUploadIMG} type="file" id="imagem" />
-          </div>
-
-          <div className="preview-imagem">
-            <img
-              style={{ display: img ? "block" : "none" }}
-              src={img}
-              alt="preview da imagem do evento"
+          <div className="input-wrapper">
+            <input
+              type="file"
+              id="image"
+              accept="image/jpeg, image/png, image/gif, image/webp"
+              onChange={handleImageSelect}
+              disabled={isUploading}
             />
+            <label htmlFor="image">
+              {isUploading ? 'Enviando...' : 'Escolher Imagem'}
+            </label>
+            {file && !isUploading && <span className="file-name">{file.name}</span>}
+            
+            {/* Pré-visualização da imagem */}
+            {previewUrl && !img && (
+              <div className="image-preview">
+                <p>Pré-visualização:</p>
+                <img 
+                  src={previewUrl} 
+                  alt="Pré-visualização" 
+                  style={{ maxWidth: '200px', maxHeight: '200px', marginTop: '10px' }}
+                />
+              </div>
+            )}
+            
+            {/* Imagem já enviada */}
+            {img && (
+              <div className="uploaded-image">
+                <p>Imagem enviada com sucesso!</p>
+                <img 
+                  src={img} 
+                  alt="Imagem do evento" 
+                  style={{ maxWidth: '200px', maxHeight: '200px', marginTop: '10px' }}
+                />
+              </div>
+            )}
+            
+            <p className="file-info">Formatos suportados: JPG, PNG, GIF, WebP (máx. 5MB)</p>
           </div>
 
           <button>Atualizar evento</button>
