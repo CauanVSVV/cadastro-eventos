@@ -22,11 +22,7 @@ export const eventsTypes = [
     {
         name: "Gastronomia", 
         photo: "https://images.sympla.com.br/61655e17a3623.jpg"
-    }, 
-    {
-        name: "Pride",
-        photo: "https://images.sympla.com.br/647a446d454e3.png"
-    }, 
+    },
     {
         name: "Ferias Escolares", 
         photo: "https://images.sympla.com.br/64930281aac1a.png"

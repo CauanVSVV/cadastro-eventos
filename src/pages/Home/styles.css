@@ -14,8 +14,40 @@
 
 .events-types {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
   padding: 0 4rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Estilos para centralizar quando houver poucos itens */
+.events-types {
+  justify-content: center;
+}
+
+/* Ajustes de responsividade para o container */
+@media (max-width: 1200px) {
+  .events-types {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
+  .events-types {
+    max-width: 600px;
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-types {
+    max-width: 100%;
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
 }
 
 .container form {

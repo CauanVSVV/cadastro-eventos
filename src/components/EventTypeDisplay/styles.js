@@ -5,11 +5,12 @@ text-align: center;
 font-size: 1.2rem;
 max-width: 8rem;
 width: 20%;   
+color: #000;
+
 
 img {
     width: 100%;
-    border-radius: 50%;
+    border-radius: 100%;
 }
 
-color:${(props)=>props.ativo ?props.theme.blue: props.theme.cinza}
 `

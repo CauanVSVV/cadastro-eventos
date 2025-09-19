@@ -4,8 +4,9 @@ import { EventCard } from '../../components/EventCard';
 import { useState, useContext } from 'react';
 import { formatDate } from '../../utils/formatDate';
 import { EventTypeDisplay } from '../../components/EventTypeDisplay';
-import { eventsTypes } from "../../data/events-type"
+import { eventsTypes } from '../../data/events-type';
 import { EventContext } from '../../contexts/EventContext';
+import { useResponsiveItems } from '../../hooks/useResponsiveItems';
 
 export function Home() {
   const { eventos, criarNovoEvento, apagarTudo } = useContext(EventContext)
@@ -41,27 +42,23 @@ export function Home() {
     e.target.reset() //limpar os campos do  formulário
   }
 
-  return (
-    <> {/* o fragmento serve para envolver meus elementos html para que eles 
-    tenham um pai presente */}
+  const itemsToShow = useResponsiveItems();
+  const visibleEvents = eventsTypes.slice(0, itemsToShow);
 
+  return (
+    <>
       <Header />
       <h1 className='home-title'>Bem vindo ao site de eventos!</h1>
 
-      {/* <button onClick={apagarTudo}>Apagar tudo</button> */}
-
       <div className='events-types'>
-
-        {eventsTypes.map(eventType => {
-          return (
-            <EventTypeDisplay ativo={true}
-              key={eventType.name}
-              name={eventType.name}
-              photo={eventType.photo}
-            />
-          )
-        })}
-
+        {visibleEvents.map(eventType => (
+          <EventTypeDisplay 
+            ativo={true}
+            key={eventType.name}
+            name={eventType.name}
+            photo={eventType.photo}
+          />
+        ))}
       </div>
 
       <section className='container'>
