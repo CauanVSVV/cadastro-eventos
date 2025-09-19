@@ -82,9 +82,7 @@ export function EventContextProvider({ children }) {
     
     function apagarTudo() {
       if(window.confirm("Tem certeza disso?")) {
-        if(window.confirm("Meu pivete, isso vai apagar tudo, tu ta ligado?")) {
           setEventos([])
-        }
       }
     }
     

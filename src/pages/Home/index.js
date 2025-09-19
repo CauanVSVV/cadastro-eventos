@@ -48,7 +48,7 @@ export function Home() {
       <Header />
       <h1 className='home-title'>Bem vindo ao site de eventos!</h1>
 
-      <button onClick={apagarTudo}>Apagar tudo</button>
+      {/* <button onClick={apagarTudo}>Apagar tudo</button> */}
 
       <div className='events-types'>
 
