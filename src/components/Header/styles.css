@@ -1,0 +1,41 @@
+.header-app {
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(254, 254, 254);
+    box-shadow: 0 0 5px gray;
+}
+
+.header-app nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.header-app nav ul a {
+    text-decoration: none;
+    font-size: 20px;
+    color: rgb(253, 104, 50);
+    border: 1px solid rgb(255, 109, 56);
+    padding: 10px;
+    border-radius: 20px;
+    transition: 0.4s;
+}
+
+.header-app nav ul a:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 101, 45);
+}
+
+.header-app div {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.header-app img {
+    width: 30px;
+    height: 30px;
+}
