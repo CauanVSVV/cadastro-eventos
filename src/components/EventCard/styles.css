@@ -66,7 +66,7 @@
     border-radius: 5px;
     border: none;
     color: rgb(255, 255, 255);
-    background-color: #00171F;
+    background-color: #003459;
     width: 100%;
     margin-top: 1.5rem;
     font-size: 1rem;
@@ -75,7 +75,7 @@
   }
   
   .botao-detalhes:hover {
-    background-color: rgb(180, 0, 0);
+    background-color: #00171F;
   }
 
   .botoes-acoes {

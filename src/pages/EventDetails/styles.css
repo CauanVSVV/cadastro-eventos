@@ -153,10 +153,14 @@
     border: none;
     border-radius: 10px;
     width: 100%;
-    background-color: #00171F;
+    background-color: #003459;
     padding: 20px;
     font-size: 25px;
     color: white;
+  }
+
+  .container-detalhes-formulario button:hover {
+    background-color: #00171F;
   }
   
   .container-detalhes-formulario .preview-imagem {
