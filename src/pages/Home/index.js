@@ -62,7 +62,7 @@ export function Home() {
       </div>
 
       <section className='container'>
-        <form onSubmit={handleCriarEvento}>
+        <form onSubmit={handleCriarEvento} className='container-form'>
           <div>
             <label htmlFor='nome'>Nome</label>
             <input 
